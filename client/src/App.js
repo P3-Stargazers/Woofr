@@ -1,4 +1,4 @@
-
+import React from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import { StoreProvider } from './utils/GlobalStore'
 
@@ -23,7 +23,7 @@ function App() {
             <div class="container">
                <AlertBar />
                <NavBar />
-               <Route exact path={['/', '/products']} component={Products} />
+               <Route exact path={['/', '/messages']} component={Messages} />
                <Route exact path="/products/add" component={ProductsAdd} />
                <Route exact path="/products/info/:id" component={ProductsInfo} />
                <Route exact path="/cart" component={Cart} />

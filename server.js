@@ -5,7 +5,14 @@ const express = require('express')
 const apiRouter = require('./app/router')
 const app = express()
 const orm = require('./app/db/orm.mongoose')
-const io = require('socket.io')(http)
+
+// socket io setup
+const http = require('http')
+const socketio = require('socket.io')
+const server = http.createServer(app);
+const io = socketio(server);
+
+
 
 const PORT = process.env.PORT || 8080
 const API_URL = process.env.NODE_ENV === 'production' ?
@@ -39,17 +46,15 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 io.on('connection', socket => {
+   console.log(`Connection created`)
    socket.on('message', ({ name, message }) => {
+      console.log(`received ${name}, ${message}`)
       io.emit('message', { name, message })
    })
 })
 
 // seed database (if needed)
-orm.seedDatabase()
-
-http.listen(4000, function () {
-   console.log(`Messaging listening on 4000`)
-})
+// orm.seedDatabase()
 
 app.listen(PORT, function () {
    console.log(`Serving app on: ${API_URL} (port: ${PORT})`)

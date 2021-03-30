@@ -1,10 +1,8 @@
-import e from 'express';
 import React, { useState, useEffect } from 'react'
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:4000');
-
 function Messages() {
+    const socket = io.connect('http://localhost:8080');
     const [state, setState] = useState({ message: '', name: '' });
     const [chat, setChat] = useState([]);
 
@@ -25,11 +23,6 @@ function Messages() {
         setState({ message: '', name })
     }
 
-
-
-
-
-
     const renderChat = () => {
         return chat.map(({ name, message }, index) => (
             <div key={index}>
@@ -44,10 +37,10 @@ function Messages() {
             <form onSubmit={onMessageSubmit}>
                 <h1>Messanger</h1>
                 <div className="name-field">
-                    <TextField name="name" onChange={e => onTextChange(e)} value={state.name} />
+                    <textarea name="name" onChange={e => onTextChange(e)} value={state.name} />
                 </div>
                 <div>
-                    <TextField name="message" onChange={e => onTextChange(e)} value={state.message} />
+                    <textarea name="message" onChange={e => onTextChange(e)} value={state.message} />
                 </div>
                 <button>Send Message</button>
             </form>
@@ -57,7 +50,6 @@ function Messages() {
             </div>
         </div>
     )
-
 }
 
 export default Messages
