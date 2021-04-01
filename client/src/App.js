@@ -15,7 +15,7 @@ import Logout from './pages/Logout'
 import Cart from './pages/Cart'
 import Settings from './pages/Settings'
 import Messages from './pages/Messages'
-import UserCreation from './pages/UserCreation'
+import UserCreation from './pages/UserCreation.js'
 
 function App() {
    return (

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const ObjectId = require('mongodb').ObjectId
+const axios = require('axios');
 
 mongoose.connect(process.env.MONGODB_URI,
    { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
@@ -114,7 +115,21 @@ async function createBuyer(id, buyerInfo) {
    }
 }
 async function createSeller(id, sellerInfo) {
-   
+   // Replace ctrlq with your own API key
+   var apiUrl = 'https://api.imgur.com/3/image';
+   var apiKey = process.env.IMGUR_KEY;
+   var formData = sellerInfo.image
+
+   var settings = {
+       method: 'POST',
+       headers: {
+           Authorization: 'Client-ID ' + apiKey,
+       },
+       body: formData
+   };
+
+   const response = await axios.post(apiUrl, settings).then(r => r.json())
+   sellerInfo.image = response.data.link
    const userData = await db.sellers.create({ ...sellerInfo, user: mongoose.Types.ObjectId(`${id}`) })
    const updateUser = await db.users.updateOne({"_id": ObjectId(id)}, {$set: {seller: ObjectId(userData._id)}})
    return {
@@ -125,6 +140,7 @@ async function createSeller(id, sellerInfo) {
       }
    }
 }
+
 async function userSession(userId) {
    const userData = await db.users.findOne({ _id: userId })
    if (!userData || !userData._id) {

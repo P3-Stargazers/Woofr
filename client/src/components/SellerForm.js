@@ -24,10 +24,10 @@ function SellerForm() {
     }
 
     async function submitSeller() {
-
+        
         const seller = {
             dogName: dogName.current.value,
-            // image: response.data.link,
+            image: formData,
             age: Number(dogAge.current.value),
             size: prefSize,
             breed: dogBreed.current.value,
