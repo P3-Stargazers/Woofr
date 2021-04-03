@@ -121,14 +121,13 @@ async function createSeller(id, sellerInfo) {
    var formData = sellerInfo.image
 
    var settings = {
-       method: 'POST',
        headers: {
            Authorization: 'Client-ID ' + apiKey,
+           "Content-type": "application/x-www-form-urlencoded",
        },
-       body: formData
    };
 
-   const response = await axios.post(apiUrl, settings).then(r => r.json())
+   const response = await axios.post(apiUrl, formData, settings).then(r => r.json())
    sellerInfo.image = response.data.link
    const userData = await db.sellers.create({ ...sellerInfo, user: mongoose.Types.ObjectId(`${id}`) })
    const updateUser = await db.users.updateOne({"_id": ObjectId(id)}, {$set: {seller: ObjectId(userData._id)}})
@@ -139,6 +138,10 @@ async function createSeller(id, sellerInfo) {
          id: userData._id,
       }
    }
+}
+
+async function getSellers(){
+   
 }
 
 async function userSession(userId) {
