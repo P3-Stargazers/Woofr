@@ -18,7 +18,7 @@ function App() {
          <BrowserRouter>
             <div className="container">
                <AlertBar />
-               <Route exact path={['/', '/products']} component={Products} />
+               <Route exact path={['/', '/products']} component={UserCreation} />
                <Route exact path='/info' component={UserCreation} />
                <Route exact path='/browse' component={Swiper} />
                <Route exact path="/register" component={Register} />
