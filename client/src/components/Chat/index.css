@@ -1,4 +1,8 @@
 .chatArea{
     /* position: absolute; */
-    margin-top: 80vh;
+    margin-top: 50vh;
+}
+
+tr{
+    font-size: 10px;
 }
