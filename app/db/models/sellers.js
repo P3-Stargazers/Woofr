@@ -11,7 +11,6 @@ const seller = new Schema(
       image: {
          type: String,
          trim: true,
-         required: "Please provide an image of the dog"
       },
       age: {
          type: Number,

@@ -1,5 +1,7 @@
 const orm = require( './db/orm.mongoose' )
 const sessionManager = require( './session-manager' )
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 // session checking middleware
 async function authRequired(req, res, next){
@@ -81,6 +83,13 @@ function router( app, API_URL ){
       res.send({ status, userData, message })
    })
 
+   app.put(`/api/users/images/:id`, upload.single('image'), async function(req, res){
+      const userId = req.params.id
+      console.log(`RIGHT HERE--------------------->`, req.file)
+      const response = await orm.addSellerImage(userId, req.file)
+      res.send("ya")
+   })
+
    app.get('/api/users/session', authRequired, async function(req, res) {
       const { status, userData, message }= await orm.userSession( req.sessionData.userId )
       if( !status ){
@@ -110,6 +119,11 @@ function router( app, API_URL ){
       const { status, products, message }= await orm.productSaveAndList( newProduct, req.sessionData.userId )
       console.log( ` .. updated with '${newProduct}' for ownerId(${req.sessionData.userId})` )
       res.send({ status, products, message })
+   })
+
+   app.get('/api/sellers', async function(req, res){
+      const sellerData = await orm.getSellers()
+      res.send(sellerData)
    })
 }
 

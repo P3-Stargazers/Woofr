@@ -115,20 +115,7 @@ async function createBuyer(id, buyerInfo) {
    }
 }
 async function createSeller(id, sellerInfo) {
-   // Replace ctrlq with your own API key
-   var apiUrl = 'https://api.imgur.com/3/image';
-   var apiKey = process.env.IMGUR_KEY;
-   var formData = sellerInfo.image
 
-   var settings = {
-       headers: {
-           Authorization: 'Client-ID ' + apiKey,
-           "Content-type": "application/x-www-form-urlencoded",
-       },
-   };
-
-   const response = await axios.post(apiUrl, formData, settings).then(r => r.json())
-   sellerInfo.image = response.data.link
    const userData = await db.sellers.create({ ...sellerInfo, user: mongoose.Types.ObjectId(`${id}`) })
    const updateUser = await db.users.updateOne({"_id": ObjectId(id)}, {$set: {seller: ObjectId(userData._id)}})
    return {
@@ -139,9 +126,35 @@ async function createSeller(id, sellerInfo) {
       }
    }
 }
+async function addSellerImage(id, imageFile) {
+   // Replace ctrlq with your own API key
+   var apiUrl = 'https://api.imgur.com/3/image';
+   var apiKey = process.env.IMGUR_KEY;
+
+   
+   var settings = {
+       headers: {
+           Authorization: 'Client-ID ' + apiKey,
+           "Content-type": "application/x-www-form-urlencoded",
+       },
+   };
+   settings.data = imageFile;
+   const response = await axios.post(apiUrl, settings).then(r => r.json())
+   const newImage = response.data.link
+   const updateUser = await db.sellers.updateOne({"_id": ObjectId(id)}, {$set: {image: newImage}})
+   return {
+      status: true,
+      message: `inserting in ${userData.insertedId}...`,
+      userData: {
+         id: userData._id,
+      }
+   }
+}
+
 
 async function getSellers(){
-   
+   const response = await db.sellers.find()
+   return response
 }
 
 async function userSession(userId) {
@@ -220,5 +233,7 @@ module.exports = {
    productSaveAndList,
    seedDatabase,
    createBuyer,
-   createSeller
+   createSeller,
+   getSellers,
+   addSellerImage
 }
