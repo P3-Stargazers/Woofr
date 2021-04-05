@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react"
 import { useStoreContext } from '../utils/GlobalStore'
 import SellerForm from '../components/SellerForm'
 import BuyerForm from '../components/BuyerForm'
+import { Redirect, Link } from 'react-router-dom'
 
 function UserCreation(props) {
     const [userStatus, setUserStatus] = useState("")
-
+    const [completedBuyer, setCompletedBuyer] = useState(false)
     function setSeller() {
         setUserStatus("Seller")
     }
@@ -20,11 +21,15 @@ function UserCreation(props) {
             case "Seller":
                 return <SellerForm />
             case "Buyer":
-                return <BuyerForm />
+                return <BuyerForm complete={completeBuyer}/>
         }
+    }
+    function completeBuyer(){
+        setCompletedBuyer(true)
     }
     return (
         <div>
+            { completedBuyer ? <Redirect to='/browse' /> : '' }
             <div class="form-check">
                 <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" onClick={setBuyer} />
                 <label className="form-check-label" for="flexRadioDefault1">

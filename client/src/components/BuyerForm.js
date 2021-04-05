@@ -3,7 +3,7 @@ import RangeSlider from './RangeSlider';
 import { useStoreContext } from '../utils/GlobalStore'
 import fetchJSON from '../utils/API'
 
-function BuyerForm() {
+function BuyerForm(props) {
     const [sizePref, setSizePref] = useState({ xSmall: false, small: false, medium: false, large: false, xLarge: false })
     const [sliderValue, setSliderValue] = useState([0, 20]);
     const [{ alert, id }, dispatch ]= useStoreContext()
@@ -42,7 +42,7 @@ function BuyerForm() {
 
         const saveData =  {priceMax: maxPrice, priceMin: minPrice, size: sizePref, agePref: sliderValue}
         const { status, userData, message }= await fetchJSON( `/api/users/buyers/${id}`, 'put', saveData )
-        console.log(userData)
+        props.complete()
     }
     function toggle(setting) {
         sizePref[setting] = !sizePref[setting]

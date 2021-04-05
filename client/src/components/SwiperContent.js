@@ -4,7 +4,7 @@ function SwiperContent(props) {
 
     return (
         <div className="container">
-            <button className="btn btn-primary"><i class="fas fa-comments fa-3x"></i></button>
+            <button className="btn btn-primary" onClick={props.messagesPage}><i class="fas fa-comments fa-3x"></i></button>
             <img src={props.data.image} style={{ width: "300px", height: "300px" }} alt="no-image"/>
             <button className="btn btn-primary" onClick={props.nextPage}><i class="fas fa-thumbs-down"></i></button>
             <button className="btn btn-primary" onClick={props.nextPage}><i class="fas fa-thumbs-up"></i></button>
