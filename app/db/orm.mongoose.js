@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const ObjectId = require('mongodb').ObjectId
 const axios = require('axios');
+const FormData = require('form-data');
 
 mongoose.connect(process.env.MONGODB_URI,
    { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
@@ -130,7 +131,8 @@ async function addSellerImage(id, imageFile) {
 
    var apiUrl = 'https://api.imgur.com/3/image';
    var apiKey = process.env.IMGUR_KEY;
-
+   var form = new FormData()
+   form.append('image', imageFile)
    
    var settings = {
        headers: {
@@ -138,7 +140,7 @@ async function addSellerImage(id, imageFile) {
            "Content-type": "application/x-www-form-urlencoded",
        },
    };
-   settings.data = imageFile;
+   settings.data = form;
    const response = await axios.post(apiUrl, settings).then(r => r.json())
    const newImage = response.data.link
    const updateUser = await db.sellers.updateOne({"_id": ObjectId(id)}, {$set: {image: newImage}})
