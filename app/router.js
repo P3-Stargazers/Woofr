@@ -85,7 +85,6 @@ function router( app, API_URL ){
 
    app.put(`/api/users/images/:id`, upload.single('image'), async function(req, res){
       const userId = req.params.id
-      console.log(`RIGHT HERE--------------------->`, req.file)
       const response = await orm.addSellerImage(userId, req.file)
       res.send("ya")
    })
@@ -124,6 +123,12 @@ function router( app, API_URL ){
    app.get('/api/sellers', async function(req, res){
       const sellerData = await orm.getSellers()
       res.send(sellerData)
+   })
+
+   app.post('/api/messages', async function(req, res){
+     
+      const request = await orm.createChat(req.body)
+      res.send("chat created")
    })
 }
 

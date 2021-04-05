@@ -5,6 +5,12 @@ const express = require('express')
 const apiRouter = require('./app/router')
 const app = express()
 const orm = require('./app/db/orm.mongoose')
+const http = require('http').createServer(app); 
+const io = require("socket.io")(http, {
+   cors: {
+     origin: "*",
+   },
+ });
 // const io = require('socket.io')(http)
 
 const PORT = process.env.PORT || 8080
@@ -50,6 +56,29 @@ orm.seedDatabase()
 // http.listen(4000, function () {
 //    console.log(`Messaging listening on 4000`)
 // })
+const NEW_CHAT_MESSAGE_EVENT = "newChatMessage";
+
+http.listen(4000, () => {
+   console.log('listening on *:3000');
+ });
+
+io.on("connection", (socket) => {
+  
+  // Join a conversation
+  const { roomId } = socket.handshake.query;
+  socket.join(roomId);
+
+  // Listen for new messages
+  socket.on(NEW_CHAT_MESSAGE_EVENT, (data) => {
+    io.in(roomId).emit(NEW_CHAT_MESSAGE_EVENT, data);
+  });
+
+  // Leave the room if the user closes the socket
+  socket.on("disconnect", () => {
+    socket.leave(roomId);
+  });
+});
+
 
 app.listen(PORT, function () {
    console.log(`Serving app on: ${API_URL} (port: ${PORT})`)

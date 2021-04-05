@@ -103,9 +103,9 @@ async function userLogin(email, password) {
    }
 }
 async function createBuyer(id, buyerInfo) {
-   
+
    const userData = await db.buyers.create({ ...buyerInfo, user: mongoose.Types.ObjectId(`${id}`) })
-   const updateUser = await db.users.updateOne({"_id": ObjectId(id)}, {$set: {buyer: ObjectId(userData._id)}})
+   const updateUser = await db.users.updateOne({ "_id": ObjectId(id) }, { $set: { buyer: ObjectId(userData._id) } })
    return {
       status: true,
       message: `inserting in ${userData.insertedId}...`,
@@ -117,7 +117,7 @@ async function createBuyer(id, buyerInfo) {
 async function createSeller(id, sellerInfo) {
 
    const userData = await db.sellers.create({ ...sellerInfo, user: mongoose.Types.ObjectId(`${id}`) })
-   const updateUser = await db.users.updateOne({"_id": ObjectId(id)}, {$set: {seller: ObjectId(userData._id)}})
+   const updateUser = await db.users.updateOne({ "_id": ObjectId(id) }, { $set: { seller: ObjectId(userData._id) } })
    return {
       status: true,
       message: `inserting in ${userData.insertedId}...`,
@@ -131,17 +131,17 @@ async function addSellerImage(id, imageFile) {
    var apiUrl = 'https://api.imgur.com/3/image';
    var apiKey = process.env.IMGUR_KEY;
 
-   
+
    var settings = {
-       headers: {
-           Authorization: 'Client-ID ' + apiKey,
-           "Content-type": "application/x-www-form-urlencoded",
-       },
+      headers: {
+         Authorization: 'Client-ID ' + apiKey,
+         "Content-type": "application/x-www-form-urlencoded",
+      },
    };
    settings.data = imageFile;
    const response = await axios.post(apiUrl, settings).then(r => r.json())
    const newImage = response.data.link
-   const updateUser = await db.sellers.updateOne({"_id": ObjectId(id)}, {$set: {image: newImage}})
+   const updateUser = await db.sellers.updateOne({ "_id": ObjectId(id) }, { $set: { image: newImage } })
    return {
       status: true,
       message: `inserting in ${userData.insertedId}...`,
@@ -152,7 +152,7 @@ async function addSellerImage(id, imageFile) {
 }
 
 
-async function getSellers(){
+async function getSellers() {
    const response = await db.sellers.find()
    return response
 }
@@ -212,6 +212,8 @@ async function seedDatabase() {
       return
    }
 
+
+
    const fs = require('fs')
    const products = JSON.parse(fs.readFileSync('./app/db/seed.json'))
    products.forEach(async productData => {
@@ -222,6 +224,14 @@ async function seedDatabase() {
          console.log(`.. seeded: ${productData.heading}`)
       }
    })
+
+}
+
+async function createChat(data) {
+   const createChatEntry = await db.test.create(data)
+   const updateBuyer = await db.users.updateOne({ "_id": ObjectId(data.buyer) }, { $push: { chats: data.code } })
+   const updateSeller = await db.users.updateOne({ "_id": ObjectId(data.seller) }, { $push: { chats: data.code } })
+   return
 }
 
 module.exports = {
@@ -235,5 +245,6 @@ module.exports = {
    createBuyer,
    createSeller,
    getSellers,
-   addSellerImage
+   addSellerImage,
+   createChat
 }

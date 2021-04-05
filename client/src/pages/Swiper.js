@@ -1,15 +1,16 @@
 import React, { useRef, useEffect, useState } from 'react'
 import SwiperContent from '../components/SwiperContent'
 import { Redirect, Link } from 'react-router-dom'
+import { useStoreContext } from '../utils/GlobalStore'
+import { v4 as uuidv4 } from 'uuid';
+import fetchJSON from '../utils/API'
 
 function Swiper() {
-
+    const [{ id }, dispatch ]= useStoreContext()
     const [sellerData, setSellerData] = useState()
     const [pageLoaded, setPageLoaded] = useState(false)
     const [count, setCount] = useState(0)
     const [redirect, setRedirect] = useState(false)
-
-
 
     useEffect(() => {
         async function getData() {
@@ -28,13 +29,23 @@ function Swiper() {
             setCount(0)
         }   
     }
+    async function match(){
+        const sendData = {
+            code: uuidv4(),
+            buyer: id,
+            seller: sellerData[count].user,
+            msgs: []
+        }
+        const response = await fetchJSON( `/api/messages/`, 'post', sendData )
+        nextPage()
+    }
     function messagesPage(){
         setRedirect(true)
     }
     return (
         <div>
             { redirect ? <Redirect to='/messages' /> : '' }
-            {pageLoaded ? <SwiperContent data={sellerData[count]} nextPage={nextPage} messagesPage={messagesPage}/> : <h1>Loading...</h1>}
+            {pageLoaded ? <SwiperContent data={sellerData[count]} nextPage={nextPage} messagesPage={messagesPage} buyerId={id} match={match}/> : <h1>Loading...</h1>}
         </div>
 
     )

@@ -7,6 +7,7 @@ import { Redirect, Link } from 'react-router-dom'
 function UserCreation(props) {
     const [userStatus, setUserStatus] = useState("")
     const [completedBuyer, setCompletedBuyer] = useState(false)
+    const [completedSeller, setCompletedSeller] = useState(false)
     function setSeller() {
         setUserStatus("Seller")
     }
@@ -19,7 +20,7 @@ function UserCreation(props) {
             case "":
                 return
             case "Seller":
-                return <SellerForm />
+                return <SellerForm complete={completeSeller} />
             case "Buyer":
                 return <BuyerForm complete={completeBuyer}/>
         }
@@ -27,9 +28,13 @@ function UserCreation(props) {
     function completeBuyer(){
         setCompletedBuyer(true)
     }
+    function completeSeller(){
+        setCompletedSeller(true)
+    }
     return (
         <div>
             { completedBuyer ? <Redirect to='/browse' /> : '' }
+            { completedSeller ? <Redirect to='/messages' /> : ''}
             <div class="form-check">
                 <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" onClick={setBuyer} />
                 <label className="form-check-label" for="flexRadioDefault1">
