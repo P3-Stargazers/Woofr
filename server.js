@@ -5,9 +5,17 @@ const express = require('express')
 const apiRouter = require('./app/router')
 const app = express()
 const orm = require('./app/db/orm.mongoose')
-// const io = require('socket.io')(http)
+const mongoose = require('mongoose');
+const Msg = require('./app/db/models/messages')
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 const PORT = process.env.PORT || 8080
+
+const mongoDB = 'mongodb+srv://dbUser:dbUserPassword@cluster0.b59lo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+}).catch(err => console.log(err))
+
 const API_URL = process.env.NODE_ENV === 'production' ?
    'https://everestcart.herokuapp.com' : `http://localhost:${PORT}`
 // production uses REACT production-build content
@@ -38,18 +46,30 @@ if (process.env.NODE_ENV === 'production') {
    console.log('!! Be sure to run "npm run build" to prepare production react code!')
 }
 
-// io.on('connection', socket => {
-//    socket.on('message', ({ name, message }) => {
-//       io.emit('message', { name, message })
-//    })
-// })
-
 // seed database (if needed)
 orm.seedDatabase()
 
-// http.listen(4000, function () {
-//    console.log(`Messaging listening on 4000`)
-// })
+io.on('connection', (socket) => {
+   Msg.find().then(result => {
+      socket.emit('output-messages', result)
+      console.log(result)
+   })
+
+   console.log(socket.id)
+   console.log('a user connected');
+
+   socket.emit('message', 'Hello world');
+
+   socket.on('disconnect', () => {
+      console.log('user disconnected');
+   });
+   socket.on('chatmessage', msg => {
+      const message = new Msg({ msg });
+      message.save().then(() => {
+         io.emit('message', msg)
+      })
+   })
+});
 
 app.listen(PORT, function () {
    console.log(`Serving app on: ${API_URL} (port: ${PORT})`)
