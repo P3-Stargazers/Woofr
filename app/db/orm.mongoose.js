@@ -127,7 +127,7 @@ async function createSeller(id, sellerInfo) {
    }
 }
 async function addSellerImage(id, imageFile) {
-   // Replace ctrlq with your own API key
+
    var apiUrl = 'https://api.imgur.com/3/image';
    var apiKey = process.env.IMGUR_KEY;
 
@@ -142,13 +142,7 @@ async function addSellerImage(id, imageFile) {
    const response = await axios.post(apiUrl, settings).then(r => r.json())
    const newImage = response.data.link
    const updateUser = await db.sellers.updateOne({"_id": ObjectId(id)}, {$set: {image: newImage}})
-   return {
-      status: true,
-      message: `inserting in ${userData.insertedId}...`,
-      userData: {
-         id: userData._id,
-      }
-   }
+   return 
 }
 
 
