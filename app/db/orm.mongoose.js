@@ -140,8 +140,8 @@ async function addSellerImage(id, imageFile) {
            "Content-type": "application/x-www-form-urlencoded",
        },
    };
-   settings.data = form;
-   const response = await axios.post(apiUrl, settings).then(r => r.json())
+
+   const response = await axios.post(apiUrl, form, settings).then(r => r.json())
    const newImage = response.data.link
    const updateUser = await db.sellers.updateOne({"_id": ObjectId(id)}, {$set: {image: newImage}})
    return 
