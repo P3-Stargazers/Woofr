@@ -36,7 +36,7 @@ function SellerForm(props) {
             method: "POST",
             body: form
         };
-        const response = await fetch('https://api.imgur.com/3/upload', settings)
+        const response = await fetch('https://api.imgur.com/3/image', settings)
         const newImage = response.data.link
         const seller = {
             dogName: dogName.current.value,
