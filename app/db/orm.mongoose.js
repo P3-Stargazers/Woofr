@@ -143,8 +143,8 @@ async function addSellerImage(id, imageFile) {
               "Content-type": "multipart/form-data",
           },
       };
-   
-      const response = await axios.post(apiUrl, form, settings).catch(error => {
+      settings.data = form
+      const response = await axios.post(apiUrl, settings).catch(error => {
          console.log(error.message);
        })
       const newImage = response.data.link
