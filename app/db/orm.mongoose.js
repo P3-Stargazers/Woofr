@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const ObjectId = require('mongodb').ObjectId
+const axios = require('axios');
 
 mongoose.connect(process.env.MONGODB_URI,
    { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
@@ -102,9 +103,9 @@ async function userLogin(email, password) {
    }
 }
 async function createBuyer(id, buyerInfo) {
-   
+
    const userData = await db.buyers.create({ ...buyerInfo, user: mongoose.Types.ObjectId(`${id}`) })
-   const updateUser = await db.users.updateOne({"_id": ObjectId(id)}, {$set: {buyer: ObjectId(userData._id)}})
+   const updateUser = await db.users.updateOne({ "_id": ObjectId(id) }, { $set: { buyer: ObjectId(userData._id) } })
    return {
       status: true,
       message: `inserting in ${userData.insertedId}...`,
@@ -114,9 +115,9 @@ async function createBuyer(id, buyerInfo) {
    }
 }
 async function createSeller(id, sellerInfo) {
-   
+
    const userData = await db.sellers.create({ ...sellerInfo, user: mongoose.Types.ObjectId(`${id}`) })
-   const updateUser = await db.users.updateOne({"_id": ObjectId(id)}, {$set: {seller: ObjectId(userData._id)}})
+   const updateUser = await db.users.updateOne({ "_id": ObjectId(id) }, { $set: { seller: ObjectId(userData._id) } })
    return {
       status: true,
       message: `inserting in ${userData.insertedId}...`,
@@ -125,6 +126,12 @@ async function createSeller(id, sellerInfo) {
       }
    }
 }
+
+async function getSellers() {
+   const response = await db.sellers.find()
+   return response
+}
+
 async function userSession(userId) {
    const userData = await db.users.findOne({ _id: userId })
    if (!userData || !userData._id) {
@@ -201,5 +208,6 @@ module.exports = {
    productSaveAndList,
    seedDatabase,
    createBuyer,
-   createSeller
+   createSeller,
+   getSellers,
 }

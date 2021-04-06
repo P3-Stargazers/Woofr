@@ -9,7 +9,7 @@ const orm = require('./app/db/orm.mongoose')
 
 const PORT = process.env.PORT || 8080
 const API_URL = process.env.NODE_ENV === 'production' ?
-   'https://everestcart.herokuapp.com' : `http://localhost:${PORT}`
+   'https://powerful-wave-64998.herokuapp.com' : `http://localhost:${PORT}`
 // production uses REACT production-build content
 const STATIC_PATH = process.env.NODE_ENV === 'production' ?
    path.join('client', 'build') : path.join('client', 'public')

@@ -1,6 +1,8 @@
 const orm = require( './db/orm.mongoose' )
 const sessionManager = require( './session-manager' )
 
+
+
 // session checking middleware
 async function authRequired(req, res, next){
    // check session set, and it's valid
@@ -81,6 +83,7 @@ function router( app, API_URL ){
       res.send({ status, userData, message })
    })
 
+
    app.get('/api/users/session', authRequired, async function(req, res) {
       const { status, userData, message }= await orm.userSession( req.sessionData.userId )
       if( !status ){
@@ -110,6 +113,11 @@ function router( app, API_URL ){
       const { status, products, message }= await orm.productSaveAndList( newProduct, req.sessionData.userId )
       console.log( ` .. updated with '${newProduct}' for ownerId(${req.sessionData.userId})` )
       res.send({ status, products, message })
+   })
+
+   app.get('/api/sellers', async function(req, res){
+      const sellerData = await orm.getSellers()
+      res.send(sellerData)
    })
 }
 
