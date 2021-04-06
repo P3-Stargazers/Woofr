@@ -2,8 +2,6 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const ObjectId = require('mongodb').ObjectId
 const axios = require('axios');
-const FormData = require('form-data');
-const fs = require('fs')
 
 mongoose.connect(process.env.MONGODB_URI,
    { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
@@ -128,36 +126,6 @@ async function createSeller(id, sellerInfo) {
       }
    }
 }
-async function addSellerImage(id, imageFile) {
-
-   var apiUrl = 'https://api.imgur.com/3/image';
-   var apiKey = process.env.IMGUR_KEY;
-   fs.renameSync(imageFile.path, imageFile.path + '.jpg', (err) => {
-      if (err) throw err;
-      console.log('Rename complete!')
-   })
-   
-   var test = fs.readFileSync(imageFile.path + '.jpg', 'base64')
-   console.log(test)
-   var form = new FormData()
-   form.append('image', test)
-   var settings = {
-      headers: {
-         Authorization: 'Client-ID ' + apiKey,
-         'Content-Type': 'multipart/form-data'
-      },
-   };
-   settings.body = form
-   const response = await axios.post(apiUrl, settings).catch(error => {
-      console.log(error.message);
-   })
-   const newImage = response.data.link
-   const updateUser = await db.sellers.updateOne({ "_id": ObjectId(id) }, { $set: { image: newImage } })
-
-
-   return
-}
-
 
 async function getSellers() {
    const response = await db.sellers.find()
@@ -242,5 +210,4 @@ module.exports = {
    createBuyer,
    createSeller,
    getSellers,
-   addSellerImage
 }

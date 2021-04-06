@@ -26,8 +26,21 @@ function SellerForm(props) {
     }
 
     async function submitSeller(props) {
+        var form = new FormData()
+        form.append('image', uploadImage)
+        var settings = {
+            headers: {
+                Authorization: 'Client-ID dd8c5e84928d369',
+
+            },
+            method: "POST",
+            body: form
+        };
+        const response = await fetch('https://api.imgur.com/3/upload', settings)
+        const newImage = response.data.link
         const seller = {
             dogName: dogName.current.value,
+            image: newImage,
             age: Number(dogAge.current.value),
             size: prefSize,
             breed: dogBreed.current.value,
@@ -36,10 +49,6 @@ function SellerForm(props) {
             description: description.current.value
         }
         const result = await fetchJSON(`/api/users/sellers/${id}`, 'put', seller)
-        console.log(uploadImage)
-        const form = new FormData();
-        form.append("image", uploadImage)
-        const imageUpdate = await fetch(`/api/users/images/${id}`, {method: "Put", body: form})
         props.complete()
     }
     return (
