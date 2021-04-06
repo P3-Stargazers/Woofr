@@ -27,6 +27,7 @@ function SellerForm(props) {
 
     async function submitSeller() {
         const seller = {
+            sellerName: sellerName.current.value,
             dogName: dogName.current.value,
             age: Number(dogAge.current.value),
             size: prefSize,

@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient from "socket.io-client";
+import { useStoreContext } from './GlobalStore'
 
 const NEW_CHAT_MESSAGE_EVENT = "newChatMessage"; // Name of the event
 const SOCKET_SERVER_URL = "http://localhost:4000";
 
 const useChat = (roomId) => {
+  const [{ id, name }, dispatch ]= useStoreContext()
   const [messages, setMessages] = useState([]); // Sent and received messages
   const socketRef = useRef();
 
@@ -19,7 +21,7 @@ const useChat = (roomId) => {
     socketRef.current.on(NEW_CHAT_MESSAGE_EVENT, (message) => {
       const incomingMessage = {
         ...message,
-        ownedByCurrentUser: message.senderId === socketRef.current.id,
+        ownedByCurrentUser: message.senderId === id,
       };
       setMessages((messages) => [...messages, incomingMessage]);
     });
@@ -36,7 +38,8 @@ const useChat = (roomId) => {
   const sendMessage = (messageBody) => {
     socketRef.current.emit(NEW_CHAT_MESSAGE_EVENT, {
       body: messageBody,
-      senderId: socketRef.current.id,
+      senderId: id,
+      senderName: name,
     });
   };
 

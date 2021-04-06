@@ -228,12 +228,31 @@ async function seedDatabase() {
 }
 
 async function createChat(data) {
-   const createChatEntry = await db.test.create(data)
-   const updateBuyer = await db.users.updateOne({ "_id": ObjectId(data.buyer) }, { $push: { chats: data.code } })
-   const updateSeller = await db.users.updateOne({ "_id": ObjectId(data.seller) }, { $push: { chats: data.code } })
+   const chatData = {
+      code: data.code,
+      buyer: data.buyerId,
+      seller: data.sellerId,
+      msgs: []
+  }
+   const createChatEntry = await db.test.create(chatData)
+   const updateBuyer = await db.users.updateOne({ "_id": ObjectId(data.buyerId) }, { $push: { chats: {chat: data.code, partner: data.sellerName} } })
+   const updateSeller = await db.users.updateOne({ "_id": ObjectId(data.sellerId) }, { $push: { chats: {chat: data.code, partner: data.buyerName} } })
    return
 }
 
+async function findUser(userId){
+  
+   const user = await db.users.findOne({"_id": ObjectId(`${userId}`)})
+   return user
+}
+async function updateChat(roomId, data){
+   const updateChatroom = await db.test.updateOne({"code": roomId}, {$push: {msgs: {msg: data.msg, userId: data.userId, userName: data.userName}}})
+   return
+}
+async function getChat(roomId){
+   const sendData = await db.test.findOne({"code": roomId})
+   return sendData
+}
 module.exports = {
    userRegister,
    userLogin,
@@ -246,5 +265,8 @@ module.exports = {
    createSeller,
    getSellers,
    addSellerImage,
-   createChat
+   createChat,
+   findUser,
+   updateChat,
+   getChat
 }

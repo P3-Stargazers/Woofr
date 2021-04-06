@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import fetchJSON from '../utils/API'
 
 function Swiper() {
-    const [{ id }, dispatch ]= useStoreContext()
+    const [{ id, name }, dispatch ]= useStoreContext()
     const [sellerData, setSellerData] = useState()
     const [pageLoaded, setPageLoaded] = useState(false)
     const [count, setCount] = useState(0)
@@ -17,7 +17,6 @@ function Swiper() {
             const data = await fetch("/api/sellers").then(r => r.json())
             setSellerData(data)
             setPageLoaded(true)
-            console.log(data)
         }
         getData()
     }, []);
@@ -30,13 +29,16 @@ function Swiper() {
         }   
     }
     async function match(){
+        const code = uuidv4()
         const sendData = {
-            code: uuidv4(),
-            buyer: id,
-            seller: sellerData[count].user,
-            msgs: []
+            code: code,
+            buyerId: id,
+            sellerId: sellerData[count].user,
+            msgs: [],
+            buyerName: name,
+            sellerName: sellerData[count].sellerName,
         }
-        const response = await fetchJSON( `/api/messages/`, 'post', sendData )
+        const response = await fetchJSON( `/api/messages/`, 'POST', sendData )
         nextPage()
     }
     function messagesPage(){

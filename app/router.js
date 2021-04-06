@@ -1,7 +1,5 @@
 const orm = require( './db/orm.mongoose' )
 const sessionManager = require( './session-manager' )
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
 
 // session checking middleware
 async function authRequired(req, res, next){
@@ -83,7 +81,7 @@ function router( app, API_URL ){
       res.send({ status, userData, message })
    })
 
-   app.put(`/api/users/images/:id`, upload.single('image'), async function(req, res){
+   app.put(`/api/users/images/:id`, async function(req, res){
       const userId = req.params.id
       const response = await orm.addSellerImage(userId, req.file)
       res.send("ya")
@@ -130,6 +128,23 @@ function router( app, API_URL ){
       const request = await orm.createChat(req.body)
       res.send("chat created")
    })
+   app.get('/api/users/:id', async function(req, res){
+      const userId = req.params.id
+     
+      const response = await orm.findUser(userId)
+      res.send(response)
+   })
+   app.put(`/api/messages/:roomId`, async function(req, res){
+      const roomId = req.params.roomId
+      const request = await orm.updateChat(roomId, req.body)
+      res.send("chat updated")
+   })
+   app.get(`/api/messages/:roomId`, async function(req, res){
+      const roomId = req.params.roomId
+      const sendData = await orm.getChat(roomId)
+      res.send(sendData)
+   })
 }
+
 
 module.exports = router
