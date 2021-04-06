@@ -31,7 +31,7 @@ function SellerForm(props) {
         var settings = {
             headers: {
                 Authorization: 'Client-ID dd8c5e84928d369',
-
+                "Access-Control-Allow-Origin": "*"
             },
             method: "POST",
             body: form
