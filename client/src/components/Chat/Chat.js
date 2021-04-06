@@ -15,12 +15,14 @@ function Chat() {
             setChat(data)
         })
     }
-    getMessages();
+
     console.log(`[STATE]`, chat)
+    useEffect(() => {
+        getMessages();
+    }, [])
 
+    function sendMsg() {
 
-    function sendMsg(event) {
-        event.preventDefault();
         let newMsg = msgIn.current.value
         socket.emit('chatmessage', newMsg)
         getMessages();
