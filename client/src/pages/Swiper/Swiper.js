@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
-import SwiperContent from '../../components/SwiperContent.js'
+import SwiperContent from '../../components/SwiperContent/SwiperContent.js'
 import "./Swiper.css"
 import { Redirect, Link } from 'react-router-dom'
 

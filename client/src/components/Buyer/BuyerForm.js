@@ -1,10 +1,8 @@
 import React, { useRef, useState } from "react";
-import RangeSlider from "../RangeSlider";
+import RangeSlider from "../RangeSlider/RangeSlider.js";
 import { useStoreContext } from "../../utils/GlobalStore";
 import fetchJSON from "../../utils/API";
 import "./BuyerForm.css"
-import NavBar from "../NavBar.js";
-import Logo from "../GreenLogo/greenLogo";
 
 function BuyerForm() {
   const [sizePref, setSizePref] = useState({

@@ -43,3 +43,8 @@ button {
   font-family: 'Raleway';
   color: white;
 }
+
+img {
+  width: 40px;
+  height: 40px;
+};

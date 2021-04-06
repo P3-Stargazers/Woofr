@@ -3,8 +3,8 @@ import { Redirect, Link } from "react-router-dom";
 import { useStoreContext } from "../../utils/GlobalStore";
 import fetchJSON from "../../utils/API";
 import "./index.css";
-import paw from "./Assets/greenPaw.png";
-import Footer from "../../components/Footer/index.js"
+import Logo from "../../components/GreenLogo/greenLogo.js";
+import Footer from "../../components/Footer/index.js";
 
 function Register() {
   const [{ authOk }, dispatch] = useStoreContext();
@@ -62,74 +62,79 @@ function Register() {
   useEffect(function () {
     // if remembered email, insert
     inputEmail.current.value = localStorage.email || "";
-   document.body.style.backgroundColor = "white"; // Set the style
-   }, []);
+    document.body.style.backgroundColor = "white"; // Set the style
+  }, []);
 
   return (
     <>
       {authOk ? <Redirect to="/products" /> : ""}
       <div id="background">
-      <form ref={refForm}>
-        <h1 id="logo" className="container">
-          <img src={paw}></img>
-          Woofr
-        </h1>
-        <div id="userR" className="card mt-5">
-          <div className="card-header">
-            <h2 id="reg">User Registration</h2>
+        <form ref={refForm}>
+          <div className="mt-5">
+            <Logo />
           </div>
-          <div className="card-body">
-            <div className="mb-3">
-              <label className="title" for="name">First Name</label>
-              <input
-                ref={inputName}
-                type="text"
-                id="name"
-                className="form-control"
-                required
-              />
-              <div className="invalid-feedback">Please enter a name</div>
+          <div id="userR" className="card mt-5">
+            <div className="card-header">
+              <h2 id="reg">User Registration</h2>
             </div>
-            <div className="mb-3">
-              <label className="title" for="email">Email Address</label>
-              <input
-                ref={inputEmail}
-                id="email"
-                type="email"
-                className="form-control"
-                required
-              />
-              <div className="invalid-feedback">Please enter an email</div>
-            </div>
-            <div className="mb-3">
-              <label className="title" for="userPassword">Password</label>
-              <input
-                ref={inputPassword}
-                id="userPassword"
-                type="password"
-                className="form-control"
-                pattern=".{8,}"
-                required
-              />
-              <div className="invalid-feedback">
-                Please enter a password (8 chars min)
+            <div className="card-body">
+              <div className="mb-3">
+                <label className="title" for="name">
+                  First Name
+                </label>
+                <input
+                  ref={inputName}
+                  type="text"
+                  id="name"
+                  className="form-control"
+                  required
+                />
+                <div className="invalid-feedback">Please enter a name</div>
+              </div>
+              <div className="mb-3">
+                <label className="title" for="email">
+                  Email Address
+                </label>
+                <input
+                  ref={inputEmail}
+                  id="email"
+                  type="email"
+                  className="form-control"
+                  required
+                />
+                <div className="invalid-feedback">Please enter an email</div>
+              </div>
+              <div className="mb-3">
+                <label className="title" for="userPassword">
+                  Password
+                </label>
+                <input
+                  ref={inputPassword}
+                  id="userPassword"
+                  type="password"
+                  className="form-control"
+                  pattern=".{8,}"
+                  required
+                />
+                <div className="invalid-feedback">
+                  Please enter a password (8 chars min)
+                </div>
               </div>
             </div>
+            <div className="card-footer">
+              <button onClick={registerUser} className="btn btn-secondary mx-1">
+                Register
+              </button>
+              <Link
+                to="/login"
+                className="font-weight-light mx-3"
+                id="register"
+              >
+                Already Registered?
+              </Link>
+            </div>
           </div>
-          <div className="card-footer">
-            <button onClick={registerUser} className="btn btn-secondary mx-1">
-              Register
-            </button>
-            <Link
-              to="/login"
-              className="font-weight-light mx-3"
-              id="register"
-            >
-              Already Registered?
-            </Link>
-          </div>
-        </div>
-      </form>
+        </form>
       </div>
     </>
   );
