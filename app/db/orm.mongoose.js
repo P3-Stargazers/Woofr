@@ -105,9 +105,9 @@ async function userLogin(email, password) {
    }
 }
 async function createBuyer(id, buyerInfo) {
-   
+
    const userData = await db.buyers.create({ ...buyerInfo, user: mongoose.Types.ObjectId(`${id}`) })
-   const updateUser = await db.users.updateOne({"_id": ObjectId(id)}, {$set: {buyer: ObjectId(userData._id)}})
+   const updateUser = await db.users.updateOne({ "_id": ObjectId(id) }, { $set: { buyer: ObjectId(userData._id) } })
    return {
       status: true,
       message: `inserting in ${userData.insertedId}...`,
@@ -119,7 +119,7 @@ async function createBuyer(id, buyerInfo) {
 async function createSeller(id, sellerInfo) {
 
    const userData = await db.sellers.create({ ...sellerInfo, user: mongoose.Types.ObjectId(`${id}`) })
-   const updateUser = await db.users.updateOne({"_id": ObjectId(id)}, {$set: {seller: ObjectId(userData._id)}})
+   const updateUser = await db.users.updateOne({ "_id": ObjectId(id) }, { $set: { seller: ObjectId(userData._id) } })
    return {
       status: true,
       message: `inserting in ${userData.insertedId}...`,
@@ -132,30 +132,33 @@ async function addSellerImage(id, imageFile) {
 
    var apiUrl = 'https://api.imgur.com/3/image';
    var apiKey = process.env.IMGUR_KEY;
-   fs.readFile(imageFile.path + '.jpg', async function(err, data){
-      var form = new FormData()
-      console.log(`HERE=============>`, data)
-      form.append('image', data)
-      
-      var settings = {
-          headers: {
-              Authorization: 'Client-ID ' + apiKey,
-              "Content-type": "multipart/form-data",
-          },
-      };
-      settings.data = form
-      const response = await axios.post(apiUrl, settings).catch(error => {
-         console.log(error.message);
-       })
-      const newImage = response.data.link
-      const updateUser = await db.sellers.updateOne({"_id": ObjectId(id)}, {$set: {image: newImage}})
+   fs.rename(imageFile.path, imageFile.path + '.jpg', (err) => {
+      if (err) throw err;
+      console.log('Rename complete!')
    })
-  
-   return 
+   
+   var test = fs.createReadStream(imageFile.path+'.jpg')
+   var form = new FormData()
+   form.append('image', test)
+   var settings = {
+      headers: {
+         Authorization: 'Client-ID ' + apiKey,
+         "Content-type": "multipart/form-data",
+      },
+   };
+   settings.data = form
+   const response = await axios.post(apiUrl, settings).catch(error => {
+      console.log(error.message);
+   })
+   const newImage = response.data.link
+   const updateUser = await db.sellers.updateOne({ "_id": ObjectId(id) }, { $set: { image: newImage } })
+
+
+   return
 }
 
 
-async function getSellers(){
+async function getSellers() {
    const response = await db.sellers.find()
    return response
 }
