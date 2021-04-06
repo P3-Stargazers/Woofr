@@ -132,7 +132,7 @@ async function addSellerImage(id, imageFile) {
 
    var apiUrl = 'https://api.imgur.com/3/image';
    var apiKey = process.env.IMGUR_KEY;
-   fs.readFile(imageFile.path, async function(err, data){
+   fs.readFile(imageFile.path + '.jpg', async function(err, data){
       var form = new FormData()
       console.log(`HERE=============>`, data)
       form.append('image', data)
