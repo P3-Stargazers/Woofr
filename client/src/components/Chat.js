@@ -1,8 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { Form, InputGroup, Button } from 'react-bootstrap'
 
-let message = ['', 'dfsfsd', 'fsdsfd']
-
 function Chat() {
 
     const [text, setText] = useState('')
@@ -34,6 +32,12 @@ function Chat() {
         },
         ]
     })
+
+    function submitted(event) {
+        event.preventDefault()
+
+    }
+
     return (
         <div className="d-flex flex-column flex-grow-1" style={{ height: '100vh' }}>
             <div className="flex-grow-1 overflow-auto">
@@ -58,7 +62,7 @@ function Chat() {
                     })}
                 </div>
             </div>
-            <Form >
+            <Form onSubmit={submitted}>
                 <Form.Group className="m-2">
                     <InputGroup>
                         <Form.Control
