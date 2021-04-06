@@ -33,9 +33,7 @@ function Swiper() {
                 userid: id,
                 sellerid: sellerData[count]
             }
-            console.log(`[SELLER DATA]`, sellerData[count])
-            console.log(`[CURRENT USER ID]`, id, dispatch)
-            console.log(newMatchData)
+
             const matchUser = await fetchJSON(
                 "/api/matches",
                 "post",

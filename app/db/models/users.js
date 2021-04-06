@@ -15,7 +15,6 @@ let users = new Schema({
    buyer: Schema.Types.ObjectId,
    seller: Schema.Types.ObjectId,
 },
-
    {
       timestamps: true /* creates corresponding timestamp fields: createdAt, updatedAt */
    })

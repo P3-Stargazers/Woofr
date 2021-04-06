@@ -1,13 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { Redirect, Link } from 'react-router-dom'
-import UserCreation from '../pages/UserCreation'
-import fetchJSON from '../utils/API'
 import { useStoreContext } from '../utils/GlobalStore'
-
+import { Redirect, Link } from 'react-router-dom'
 
 function Matches() {
     const [{ id }, dispatch] = useStoreContext()
     const [matched, setMatched] = useState([])
+
+
+    // function openConversation() {
+    //     <Redirect to='/chat' />
+    // }
 
     useEffect(() => {
         async function getMatches() {
