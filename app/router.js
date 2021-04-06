@@ -85,7 +85,9 @@ function router( app, API_URL ){
 
    app.put(`/api/users/images/:id`, upload.single('image'), async function(req, res){
       const userId = req.params.id
+
       const response = await orm.addSellerImage(userId, req.file)
+     
       res.send("ya")
    })
 

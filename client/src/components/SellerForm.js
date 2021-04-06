@@ -3,7 +3,7 @@ import fetchJSON from '../utils/API'
 import { useStoreContext } from '../utils/GlobalStore'
 
 
-function SellerForm() {
+function SellerForm(props) {
     const [uploadImage, setUploadImage] = useState()
     const [prefSize, setPrefSize] = useState()
     const [{ id }, dispatch] = useStoreContext()
@@ -25,7 +25,7 @@ function SellerForm() {
         }
     }
 
-    async function submitSeller() {
+    async function submitSeller(props) {
         const seller = {
             dogName: dogName.current.value,
             age: Number(dogAge.current.value),
@@ -40,6 +40,7 @@ function SellerForm() {
         const form = new FormData();
         form.append("image", uploadImage)
         const imageUpdate = await fetch(`/api/users/images/${id}`, {method: "Put", body: form})
+        props.complete()
     }
     return (
         <div>

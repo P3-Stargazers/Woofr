@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const ObjectId = require('mongodb').ObjectId
 const axios = require('axios');
 const FormData = require('form-data');
+var fs = require('fs');
 
 mongoose.connect(process.env.MONGODB_URI,
    { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
@@ -131,8 +132,10 @@ async function addSellerImage(id, imageFile) {
 
    var apiUrl = 'https://api.imgur.com/3/image';
    var apiKey = process.env.IMGUR_KEY;
+   var readable = fs.createReadStream(imageFile.path)
    var form = new FormData()
-   form.append('image', imageFile)
+   console.log(`HERE=============>`, readable)
+   form.append('image', readable)
    
    var settings = {
        headers: {
