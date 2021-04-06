@@ -11,10 +11,14 @@ let users = new Schema({
    type: { type: String, default: 'local' }, // used by OAuth
    authId: { type: String, default: '' }, // used by OAuth
    password: { type: String, trim: true },
+   matchList: [],
    buyer: Schema.Types.ObjectId,
    seller: Schema.Types.ObjectId,
-}, {
-   timestamps: true /* creates corresponding timestamp fields: createdAt, updatedAt */
-})
+},
+
+   {
+      timestamps: true /* creates corresponding timestamp fields: createdAt, updatedAt */
+   })
 
 module.exports = mongoose.model('users', users)
+
