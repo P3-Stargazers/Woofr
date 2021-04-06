@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const ObjectId = require('mongodb').ObjectId
 const axios = require('axios');
 const FormData = require('form-data');
-var fs = require('fs');
+const fs = require('fs')
 
 mongoose.connect(process.env.MONGODB_URI,
    { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
@@ -132,21 +132,25 @@ async function addSellerImage(id, imageFile) {
 
    var apiUrl = 'https://api.imgur.com/3/image';
    var apiKey = process.env.IMGUR_KEY;
-   var readable = fs.createReadStream(imageFile.path)
-   var form = new FormData()
-   console.log(`HERE=============>`, readable)
-   form.append('image', readable)
+   fs.readFile(imageFile.path, async function(err, data){
+      var form = new FormData()
+      console.log(`HERE=============>`, data)
+      form.append('image', data)
+      
+      var settings = {
+          headers: {
+              Authorization: 'Client-ID ' + apiKey,
+              "Content-type": "multipart/form-data",
+          },
+      };
    
-   var settings = {
-       headers: {
-           Authorization: 'Client-ID ' + apiKey,
-           "Content-type": "application/x-www-form-urlencoded",
-       },
-   };
-
-   const response = await axios.post(apiUrl, form, settings).then(r => r.json())
-   const newImage = response.data.link
-   const updateUser = await db.sellers.updateOne({"_id": ObjectId(id)}, {$set: {image: newImage}})
+      const response = await axios.post(apiUrl, form, settings).catch(error => {
+         console.log(error.message);
+       })
+      const newImage = response.data.link
+      const updateUser = await db.sellers.updateOne({"_id": ObjectId(id)}, {$set: {image: newImage}})
+   })
+  
    return 
 }
 
