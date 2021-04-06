@@ -9,8 +9,8 @@ import Register from './pages/Register/index.js'
 import Login from './pages/Login/index'
 import Logout from './pages/Logout'
 import Messages from './pages/Messages'
-import UserCreation from './pages/UserCreation.js'
-import Swiper from './pages/Swiper'
+import UserCreation from './pages/UserCreation/UserCreation.js'
+import Swiper from './pages/Swiper/Swiper.js'
 
 function App() {
    return (

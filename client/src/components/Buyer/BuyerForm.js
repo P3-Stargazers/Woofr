@@ -66,8 +66,8 @@ function BuyerForm() {
   }
   return (
     <div>
-      <div className="input-group mb-3">
-        <span className="input-group-text" id="basic-addon1">
+      <div className="input-group mb-3 mt-3">
+        <span className="input-group-text" id="name1">
           Minimum Price (Optional)
         </span>
         <input
@@ -79,7 +79,7 @@ function BuyerForm() {
         />
       </div>
       <div className="input-group mb-3">
-        <span className="input-group-text" id="basic-addon1">
+        <span className="input-group-text" id="name1">
           Maximum Price (Optional)
         </span>
         <input
@@ -90,7 +90,7 @@ function BuyerForm() {
           ref={inputMaxPrice}
         />
       </div>
-      <div className="input-group mb-3">
+      <div id="name1" className="input-group mb-3">
         <RangeSlider
           label="Age Range"
           sliderValue={sliderValue}
@@ -99,7 +99,7 @@ function BuyerForm() {
       </div>
 
       <div className="input-group mb-3">
-        <span className="input-group-text" id="basic-addon1">
+        <span className="input-group-text" id="name1">
           Size Preferences:
         </span>
         <div className="form-check form-check-inline">

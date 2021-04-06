@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useStoreContext } from "../utils/GlobalStore";
-import SellerForm from "../components/Seller/SellerForm";
-import BuyerForm from "../components/Buyer/BuyerForm";
-import NavBar from "../components/NavBar";
-import Logo from "../components/GreenLogo/greenLogo.js";
+import SellerForm from "../../components/Seller/SellerForm.js";
+import BuyerForm from "../../components/Buyer/BuyerForm.js";
+import Logo from "../../components/GreenLogo/greenLogo.js";
+import "./UserCreation.css";
 
 function UserCreation(props) {
   const [userStatus, setUserStatus] = useState("");
@@ -28,6 +27,7 @@ function UserCreation(props) {
   return (
     <div>
       <Logo />
+      <div id="buttons">
       <div class="form-check">
         <input
           className="form-check-input"
@@ -36,9 +36,11 @@ function UserCreation(props) {
           id="flexRadioDefault1"
           onClick={setBuyer}
         />
-        <label className="form-check-label" for="flexRadioDefault1">
+        <div id="innerbutton">
+        <label id="buysell" className="form-check-label" for="flexRadioDefault1">
           Buying
         </label>
+        </div>
       </div>
       <div className="form-check">
         <input
@@ -48,12 +50,16 @@ function UserCreation(props) {
           id="flexRadioDefault2"
           onClick={setSeller}
         />
-        <label className="form-check-label" for="flexRadioDefault2">
+        <div id="innerbutton">
+        <label id="buysell" className="form-check-label" for="flexRadioDefault2">
           Selling
         </label>
+        </div>
+      </div>
       </div>
       {buildBody()}
     </div>
+  
   );
 }
 

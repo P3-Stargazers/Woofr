@@ -60,23 +60,23 @@ function SellerForm() {
             <div className="input-group mb-3">
                 <span className="input-group-text" id="name1">Size:</span>
                 <div className="form-check form-check-inline">
-                    <input className="form-check-input m-1" type="checkbox" id="inlineCheckbox1" value="option1" onClick={() => setPrefSize('xSmall')}/>
+                    <input className="form-check-input m-1" type="radio" id="inlineCheckbox1" value="option1" onClick={() => setPrefSize('xSmall')}/>
                     <label className="form-check-label" for="inlineCheckbox1" id="name2">X-Small</label>
                 </div>
                 <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="checkbox" value="option2" onClick={() => setPrefSize('small')}/>
+                    <input className="form-check-input" type="radio" value="option2" onClick={() => setPrefSize('small')}/>
                     <label className="form-check-label" id="name2" >Small</label>
                 </div>
                 <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="checkbox" value="option2" onClick={() => setPrefSize('medium')}/>
+                    <input className="form-check-input" type="radio" value="option2" onClick={() => setPrefSize('medium')}/>
                     <label className="form-check-label" id="name2">Medium</label>
                 </div>
                 <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="checkbox" value="option2" onClick={() => setPrefSize('large')}/>
+                    <input className="form-check-input" type="radio" value="option2" onClick={() => setPrefSize('large')}/>
                     <label className="form-check-label" id="name2" >Large</label>
                 </div>
                 <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="checkbox" value="option2" onClick={() => setPrefSize('xLarge')} />
+                    <input className="form-check-input" type="radio" value="option2" onClick={() => setPrefSize('xLarge')} />
                     <label className="form-check-label" id="name2" >X-Large</label>
                 </div>
             </div>
