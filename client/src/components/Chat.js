@@ -1,11 +1,16 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Form, InputGroup, Button } from 'react-bootstrap'
 
 let message = ['', 'dfsfsd', 'fsdsfd']
 
 function Chat() {
 
-    const [lastMes, setRef] = useState('')
+    const [text, setText] = useState('')
+    const setRef = useCallback(node => {
+        if (node) {
+            node.scrollIntoView({ smooth: true })
+        }
+    }, [])
     const [selectedConversation, setSelectedConversation] = useState({
         messages: [{
             text: "test",
@@ -16,18 +21,28 @@ function Chat() {
             text: 'hello',
             fromMe: false,
             senderName: 'Luca'
-        }
+        },
+        {
+            text: "test",
+            fromMe: true,
+            senderName: 'Andrew'
+        },
+        {
+            text: 'hello',
+            fromMe: false,
+            senderName: 'Luca'
+        },
         ]
     })
     return (
-        <div className="d-flex flex-column flex-grow-1">
+        <div className="d-flex flex-column flex-grow-1" style={{ height: '100vh' }}>
             <div className="flex-grow-1 overflow-auto">
                 <div className="d-flex flex-column align-items-start justify-content-end px-3">
                     {selectedConversation.messages.map((message, index) => {
                         const lastMessage = selectedConversation.messages.length - 1 === index
                         return (
                             <div
-                                // // ref={lastMessage ? setRef : null}
+                                ref={lastMessage ? setRef : null}
                                 key={index}
                                 className={`my-1 d-flex flex-column ${message.fromMe ? 'align-self-end align-items-end' : 'align-items-start'}`}
                             >
@@ -49,8 +64,8 @@ function Chat() {
                         <Form.Control
                             as="textarea"
                             required
-                            // value={text}
-                            // onChange={e => setText(e.target.value)}
+                            value={text}
+                            onChange={e => setText(e.target.value)}
                             style={{ height: '75px', resize: 'none' }}
                         />
                         <InputGroup.Append>
