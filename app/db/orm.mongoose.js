@@ -103,9 +103,9 @@ async function userLogin(email, password) {
    }
 }
 async function createBuyer(id, buyerInfo) {
-   
+
    const userData = await db.buyers.create({ ...buyerInfo, user: mongoose.Types.ObjectId(`${id}`) })
-   const updateUser = await db.users.updateOne({"_id": ObjectId(id)}, {$set: {buyer: ObjectId(userData._id)}})
+   const updateUser = await db.users.updateOne({ "_id": ObjectId(id) }, { $set: { buyer: ObjectId(userData._id) } })
    return {
       status: true,
       message: `inserting in ${userData.insertedId}...`,
@@ -117,7 +117,7 @@ async function createBuyer(id, buyerInfo) {
 async function createSeller(id, sellerInfo) {
 
    const userData = await db.sellers.create({ ...sellerInfo, user: mongoose.Types.ObjectId(`${id}`) })
-   const updateUser = await db.users.updateOne({"_id": ObjectId(id)}, {$set: {seller: ObjectId(userData._id)}})
+   const updateUser = await db.users.updateOne({ "_id": ObjectId(id) }, { $set: { seller: ObjectId(userData._id) } })
    return {
       status: true,
       message: `inserting in ${userData.insertedId}...`,
@@ -131,17 +131,17 @@ async function addSellerImage(id, imageFile) {
    var apiUrl = 'https://api.imgur.com/3/image';
    var apiKey = process.env.IMGUR_KEY;
 
-   
+
    var settings = {
-       headers: {
-           Authorization: 'Client-ID ' + apiKey,
-           "Content-type": "application/x-www-form-urlencoded",
-       },
+      headers: {
+         Authorization: 'Client-ID ' + apiKey,
+         "Content-type": "application/x-www-form-urlencoded",
+      },
    };
    settings.data = imageFile;
    const response = await axios.post(apiUrl, settings).then(r => r.json())
    const newImage = response.data.link
-   const updateUser = await db.sellers.updateOne({"_id": ObjectId(id)}, {$set: {image: newImage}})
+   const updateUser = await db.sellers.updateOne({ "_id": ObjectId(id) }, { $set: { image: newImage } })
    return {
       status: true,
       message: `inserting in ${userData.insertedId}...`,
@@ -152,9 +152,21 @@ async function addSellerImage(id, imageFile) {
 }
 
 
-async function getSellers(){
+async function getSellers() {
    const response = await db.sellers.find()
    return response
+}
+
+// Chat 
+async function newMatch(seller, user) {
+   const match = await db.users.findByIdAndUpdate(user, { $push: { "matchList": seller } })
+   return match
+}
+
+async function getMatches(id) {
+   console.log(`MY ID:`, id)
+   const matches = await db.users.findById(id)
+   return matches
 }
 
 async function userSession(userId) {
@@ -235,5 +247,7 @@ module.exports = {
    createBuyer,
    createSeller,
    getSellers,
-   addSellerImage
+   addSellerImage,
+   newMatch,
+   getMatches
 }
