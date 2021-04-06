@@ -132,21 +132,22 @@ async function addSellerImage(id, imageFile) {
 
    var apiUrl = 'https://api.imgur.com/3/image';
    var apiKey = process.env.IMGUR_KEY;
-   fs.rename(imageFile.path, imageFile.path + '.jpg', (err) => {
+   fs.renameSync(imageFile.path, imageFile.path + '.jpg', (err) => {
       if (err) throw err;
       console.log('Rename complete!')
    })
    
-   var test = fs.createReadStream(imageFile.path+'.jpg')
+   var test = fs.readFileSync(imageFile.path + '.jpg', 'base64')
+   console.log(test)
    var form = new FormData()
    form.append('image', test)
    var settings = {
       headers: {
          Authorization: 'Client-ID ' + apiKey,
-         "Content-type": "multipart/form-data",
+         'Content-Type': 'multipart/form-data'
       },
    };
-   settings.data = form
+   settings.body = form
    const response = await axios.post(apiUrl, settings).catch(error => {
       console.log(error.message);
    })
