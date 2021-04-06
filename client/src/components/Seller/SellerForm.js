@@ -40,7 +40,7 @@ function SellerForm() {
         const result = await fetchJSON(`/api/users/sellers/${id}`, 'put', seller )
     }
     return (
-        <div>
+        <div className="mb-5">
             <div className="input-group mb-3 mt-3">
                 <span className="input-group-text" id="name1">Seller Name</span>
                 <input type="text" className="form-control" placeholder="Seller Name" aria-label="Username" aria-describedby="name2" ref={sellerName}/>

@@ -5,7 +5,7 @@ import paw from "./Assets/paw.png";
 function Logo() {
   return (
     <>
-      <h1 className="container">
+      <h1 id="h1" className="container">
       <img src={paw}></img>
         Woofr
       </h1>
