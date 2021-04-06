@@ -1,16 +1,15 @@
 require('dotenv').config() // looks for .env ; process.env gets it's values
 
-const path = require('path')
 const express = require('express')
-const apiRouter = require('./app/router')
 const app = express()
+const path = require('path')
+const apiRouter = require('./app/router')
+const PORT = process.env.PORT || 8080
 const orm = require('./app/db/orm.mongoose')
 const mongoose = require('mongoose');
 const Msg = require('./app/db/models/messages')
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
-
-const PORT = process.env.PORT || 8080
 
 const mongoDB = 'mongodb+srv://dbUser:dbUserPassword@cluster0.b59lo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
@@ -37,8 +36,6 @@ app.use(express.static(STATIC_PATH))
 // all our RESTful API routes come from
 apiRouter(app, API_URL, STATIC_PATH)
 
-// **OPTIONAL** If your REACT routing allows non-standard paths (ex. fake paths for React-Router)
-// THEN you need to enable this for server-side serving to work
 if (process.env.NODE_ENV === 'production') {
    app.get('*', (req, res) => {
       res.sendFile(path.join(__dirname, './client/build/index.html'))
@@ -46,13 +43,9 @@ if (process.env.NODE_ENV === 'production') {
    console.log('!! Be sure to run "npm run build" to prepare production react code!')
 }
 
-// seed database (if needed)
-orm.seedDatabase()
-
 io.on('connection', (socket) => {
    Msg.find().then(result => {
       socket.emit('output-messages', result)
-      console.log(result)
    })
 
    console.log(socket.id)
@@ -71,6 +64,6 @@ io.on('connection', (socket) => {
    })
 });
 
-app.listen(PORT, function () {
+server.listen(PORT, function () {
    console.log(`Serving app on: ${API_URL} (port: ${PORT})`)
 })
