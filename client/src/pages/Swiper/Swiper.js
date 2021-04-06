@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
-import SwiperContent from '../components/SwiperContent'
+import SwiperContent from '../../components/SwiperContent/SwiperContent.js'
+import "./Swiper.css"
 import { Redirect, Link } from 'react-router-dom'
 import { useStoreContext } from '../utils/GlobalStore'
 import { v4 as uuidv4 } from 'uuid';

@@ -1,11 +1,11 @@
 import React from "react";
-import "./Logo.css";
-import paw from "./Assets/paw.png";
+import "./greenLogo.css";
+import paw from "./Assets/greenPaw.png";
 
 function Logo() {
   return (
     <>
-      <h1 id="h1" className="container">
+      <h1 className="container">
       <img src={paw}></img>
         Woofr
       </h1>

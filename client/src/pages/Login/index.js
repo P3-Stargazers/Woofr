@@ -82,7 +82,7 @@ function Login() {
       <div className="background">
         <NavBar />
         <Logo />
-        {authOk ? <Redirect to="/browse" /> : ""}
+        {authOk ? <Redirect to="/info" /> : ""}
         <form ref={refForm}>
           <div className="card mt-5">
             <div className="card-header bg-light">

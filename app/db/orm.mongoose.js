@@ -151,7 +151,6 @@ async function addSellerImage(id, imageFile) {
    }
 }
 
-
 async function getSellers() {
    const response = await db.sellers.find()
    return response
