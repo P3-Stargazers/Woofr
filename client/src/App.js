@@ -11,6 +11,7 @@ import Logout from './pages/Logout'
 import Messages from './pages/Messages'
 import UserCreation from './pages/UserCreation.js'
 import Swiper from './pages/Swiper'
+import Chat from './components/Chat'
 
 function App() {
    return (
@@ -18,7 +19,7 @@ function App() {
          <BrowserRouter>
             <div className="container">
                <AlertBar />
-               <Route exact path={['/', '/products']} component={UserCreation} />
+               <Route exact path={['/', '/products']} component={Chat} />
                <Route exact path='/info' component={UserCreation} />
                <Route exact path='/browse' component={Swiper} />
                <Route exact path="/register" component={Register} />
@@ -27,9 +28,9 @@ function App() {
                <Route exact path="/messages" component={Messages} />
             </div>
          </BrowserRouter>
-         <Footer/>
+         {/* <Footer /> */}
       </StoreProvider>
-      
+
    )
 }
 

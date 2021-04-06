@@ -45,7 +45,7 @@ if (process.env.NODE_ENV === 'production') {
 // })
 
 // seed database (if needed)
-orm.seedDatabase()
+// orm.seedDatabase()
 
 // http.listen(4000, function () {
 //    console.log(`Messaging listening on 4000`)
