@@ -39,6 +39,7 @@ function SellerForm() {
         const response = await fetch('https://api.imgur.com/3/image', settings).then(r=>r.json())
         const newImage = response.data.link
         const seller = {
+            sellerName: sellerName.current.value,
             dogName: dogName.current.value,
             image: newImage,
             age: Number(dogAge.current.value),
