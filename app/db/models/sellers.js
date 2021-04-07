@@ -3,6 +3,11 @@ const Schema = mongoose.Schema
 
 const seller = new Schema(
    {
+      sellerName: {
+         type: String,
+         trim: true,
+         required: "Enter your name"
+      },
       dogName: {
          type: String,
          trim: true,

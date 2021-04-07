@@ -16,7 +16,7 @@ function fetchJSON( url, method='get', data={} ){
     if( method === 'post' || method === 'put' ) {
         fetchOptions.body = JSON.stringify( data )
     }
-  
+    
     return fetch( url,fetchOptions ).then( res=>res.json() )
 }
 

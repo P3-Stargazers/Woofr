@@ -13,6 +13,7 @@ let users = new Schema({
    password: { type: String, trim: true },
    buyer: Schema.Types.ObjectId,
    seller: Schema.Types.ObjectId,
+   chats: {type: Array, default: []},
 }, {
    timestamps: true /* creates corresponding timestamp fields: createdAt, updatedAt */
 })

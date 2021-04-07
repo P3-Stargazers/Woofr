@@ -187,6 +187,8 @@ async function seedDatabase() {
       return
    }
 
+
+
    const fs = require('fs')
    const products = JSON.parse(fs.readFileSync('./app/db/seed.json'))
    products.forEach(async productData => {
@@ -197,8 +199,36 @@ async function seedDatabase() {
          console.log(`.. seeded: ${productData.heading}`)
       }
    })
+
 }
 
+async function createChat(data) {
+   const chatData = {
+      code: data.code,
+      buyer: data.buyerId,
+      seller: data.sellerId,
+      msgs: []
+  }
+  console.log(chatData)
+   const createChatEntry = await db.test.create(chatData)
+   const updateBuyer = await db.users.updateOne({ "_id": ObjectId(data.buyerId) }, { $push: { chats: {chat: data.code, partner: data.sellerName} } })
+   const updateSeller = await db.users.updateOne({ "_id": ObjectId(data.sellerId) }, { $push: { chats: {chat: data.code, partner: data.buyerName} } })
+   return 
+}
+
+async function findUser(userId){
+  
+   const user = await db.users.findOne({"_id": ObjectId(`${userId}`)})
+   return user
+}
+async function updateChat(roomId, data){
+   const updateChatroom = await db.test.updateOne({"code": roomId}, {$push: {msgs: {msg: data.msg, userId: data.userId, userName: data.userName}}})
+   return
+}
+async function getChat(roomId){
+   const sendData = await db.test.findOne({"code": roomId})
+   return sendData
+}
 module.exports = {
    userRegister,
    userLogin,
@@ -210,4 +240,8 @@ module.exports = {
    createBuyer,
    createSeller,
    getSellers,
+   createChat,
+   findUser,
+   updateChat,
+   getChat
 }

@@ -26,10 +26,21 @@ function SellerForm() {
     }
 
     async function submitSeller() {
+        var form = new FormData()
+        form.append('image', uploadImage)
+        var settings = {
+            headers: {
+                Authorization: 'Client-ID dd8c5e84928d369',
 
+            },
+            method: "POST",
+            body: form
+        };
+        const response = await fetch('https://api.imgur.com/3/image', settings).then(r=>r.json())
+        const newImage = response.data.link
         const seller = {
             dogName: dogName.current.value,
-            // image: response.data.link,
+            image: newImage,
             age: Number(dogAge.current.value),
             size: prefSize,
             breed: dogBreed.current.value,

@@ -1,8 +1,6 @@
 const orm = require( './db/orm.mongoose' )
 const sessionManager = require( './session-manager' )
 
-
-
 // session checking middleware
 async function authRequired(req, res, next){
    // check session set, and it's valid
@@ -119,6 +117,29 @@ function router( app, API_URL ){
       const sellerData = await orm.getSellers()
       res.send(sellerData)
    })
+
+   app.post('/api/messages', async function(req, res){
+     
+      const request = await orm.createChat(req.body)
+      res.send({message: "done"})
+   })
+   app.get('/api/users/:id', async function(req, res){
+      const userId = req.params.id
+     
+      const response = await orm.findUser(userId)
+      res.send(response)
+   })
+   app.put(`/api/messages/:roomId`, async function(req, res){
+      const roomId = req.params.roomId
+      const request = await orm.updateChat(roomId, req.body)
+      res.send({message: "chat updated"})
+   })
+   app.get(`/api/messages/:roomId`, async function(req, res){
+      const roomId = req.params.roomId
+      const sendData = await orm.getChat(roomId)
+      res.send(sendData)
+   })
 }
+
 
 module.exports = router
