@@ -8,8 +8,8 @@ function Messages() {
   return (
     <Router>
       <Switch>
-        <Route  exact path="/messages" component={MessageSelect} />
-        <Route  exact path="/messages/:roomId" component={ChatRoom} />
+        <Route exact path="/messages" component={MessageSelect} />
+        <Route exact path="/messages/:roomId" component={ChatRoom} />
       </Switch>
     </Router>
   );

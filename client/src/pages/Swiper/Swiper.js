@@ -2,9 +2,9 @@ import React, { useRef, useEffect, useState } from 'react'
 import SwiperContent from '../../components/SwiperContent/SwiperContent.js'
 import "./Swiper.css"
 import { Redirect, Link } from 'react-router-dom'
-import { useStoreContext } from '../utils/GlobalStore'
+import { useStoreContext } from '../../utils/GlobalStore'
 import { v4 as uuidv4 } from 'uuid';
-import fetchJSON from '../utils/API'
+import fetchJSON from '../../utils/API'
 
 function Swiper() {
     const [{ id, name }, dispatch ]= useStoreContext()
@@ -18,6 +18,7 @@ function Swiper() {
             const data = await fetch("/api/sellers").then(r => r.json())
             setSellerData(data)
             setPageLoaded(true)
+            document.body.style.backgroundColor = "white"; // Set the style
         }
         getData()
     }, []);
@@ -32,14 +33,14 @@ function Swiper() {
     async function match(){
         const code = uuidv4()
         const sendData = {
-            code: code,
-            buyerId: id,
-            sellerId: sellerData[count].user,
-            msgs: [],
-            buyerName: name,
-            sellerName: sellerData[count].sellerName,
+            "code": code,
+            "buyerId": id,
+            "sellerId": sellerData[count].user,
+            "msgs": [],
+            "buyerName": name,
+            "sellerName": sellerData[count].sellerName,
         }
-        const response = await fetchJSON( `/api/messages/`, 'POST', sendData )
+        const response = await fetchJSON( `/api/messages/`, 'post', sendData )
         nextPage()
     }
     function messagesPage(){

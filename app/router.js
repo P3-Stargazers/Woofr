@@ -81,11 +81,6 @@ function router( app, API_URL ){
       res.send({ status, userData, message })
    })
 
-   app.put(`/api/users/images/:id`, async function(req, res){
-      const userId = req.params.id
-      const response = await orm.addSellerImage(userId, req.file)
-      res.send("ya")
-   })
 
    app.get('/api/users/session', authRequired, async function(req, res) {
       const { status, userData, message }= await orm.userSession( req.sessionData.userId )
@@ -126,7 +121,7 @@ function router( app, API_URL ){
    app.post('/api/messages', async function(req, res){
      
       const request = await orm.createChat(req.body)
-      res.send("chat created")
+      res.send({message: "done"})
    })
    app.get('/api/users/:id', async function(req, res){
       const userId = req.params.id
@@ -137,7 +132,7 @@ function router( app, API_URL ){
    app.put(`/api/messages/:roomId`, async function(req, res){
       const roomId = req.params.roomId
       const request = await orm.updateChat(roomId, req.body)
-      res.send("chat updated")
+      res.send({message: "chat updated"})
    })
    app.get(`/api/messages/:roomId`, async function(req, res){
       const roomId = req.params.roomId

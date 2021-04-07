@@ -4,7 +4,7 @@ import { useStoreContext } from "../../utils/GlobalStore";
 import fetchJSON from "../../utils/API";
 import "./BuyerForm.css"
 
-function BuyerForm() {
+function BuyerForm(props) {
   const [sizePref, setSizePref] = useState({
     xSmall: false,
     small: false,
@@ -57,7 +57,7 @@ function BuyerForm() {
       "put",
       saveData
     );
-    console.log(userData);
+    props.complete()
   }
   function toggle(setting) {
     sizePref[setting] = !sizePref[setting];

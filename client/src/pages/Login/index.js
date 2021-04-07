@@ -4,7 +4,6 @@ import { useStoreContext } from "../../utils/GlobalStore";
 import fetchJSON from "../../utils/API";
 import OAuth from "../../components/OAuth";
 import NavBar from "../../components/NavBar";
-import Footer from "../../components/Footer/index";
 import "./index.css";
 import Logo from "../../components/Logo/Logo";
 
@@ -80,9 +79,9 @@ function Login() {
   return (
     <>
       <div className="background">
-        <NavBar />
+    
         <Logo />
-        {authOk ? <Redirect to="/info" /> : ""}
+        {authOk ? <Redirect to="/browse" /> : ""}
         <form ref={refForm}>
           <div className="card mt-5">
             <div className="card-header bg-light">

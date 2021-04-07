@@ -4,7 +4,6 @@ import { StoreProvider } from './utils/GlobalStore'
 import Footer from './components/Footer/index'
 import AlertBar from './components/AlertBar'
 // pages
-import Products from './pages/Products'
 import Register from './pages/Register/index.js'
 import Login from './pages/Login/index'
 import Logout from './pages/Logout'
@@ -18,9 +17,9 @@ function App() {
          <BrowserRouter>
             <div className="container">
                <AlertBar />
-               <Route exact path={['/', '/products']} component={UserCreation} />
+               <Route exact path='/' component={Login} />
                <Route exact path='/info' component={UserCreation} />
-               <Route exact path='/browse' component={Swiper} />
+               <Route path='/browse' component={Swiper} />
                <Route exact path="/register" component={Register} />
                <Route exact path="/login" component={Login} />
                <Route exact path="/logout" component={Logout} />

@@ -67,7 +67,7 @@ function Register() {
 
   return (
     <>
-      {authOk ? <Redirect to="/products" /> : ""}
+      {authOk ? <Redirect to="/info" /> : ""}
       <div id="background">
         <form ref={refForm}>
           <div className="mt-5">

@@ -126,30 +126,6 @@ async function createSeller(id, sellerInfo) {
       }
    }
 }
-async function addSellerImage(id, imageFile) {
-   // Replace ctrlq with your own API key
-   var apiUrl = 'https://api.imgur.com/3/image';
-   var apiKey = process.env.IMGUR_KEY;
-
-
-   var settings = {
-      headers: {
-         Authorization: 'Client-ID ' + apiKey,
-         "Content-type": "application/x-www-form-urlencoded",
-      },
-   };
-   settings.data = imageFile;
-   const response = await axios.post(apiUrl, settings).then(r => r.json())
-   const newImage = response.data.link
-   const updateUser = await db.sellers.updateOne({ "_id": ObjectId(id) }, { $set: { image: newImage } })
-   return {
-      status: true,
-      message: `inserting in ${userData.insertedId}...`,
-      userData: {
-         id: userData._id,
-      }
-   }
-}
 
 async function getSellers() {
    const response = await db.sellers.find()
@@ -233,10 +209,11 @@ async function createChat(data) {
       seller: data.sellerId,
       msgs: []
   }
+  console.log(chatData)
    const createChatEntry = await db.test.create(chatData)
    const updateBuyer = await db.users.updateOne({ "_id": ObjectId(data.buyerId) }, { $push: { chats: {chat: data.code, partner: data.sellerName} } })
    const updateSeller = await db.users.updateOne({ "_id": ObjectId(data.sellerId) }, { $push: { chats: {chat: data.code, partner: data.buyerName} } })
-   return
+   return 
 }
 
 async function findUser(userId){
@@ -263,7 +240,6 @@ module.exports = {
    createBuyer,
    createSeller,
    getSellers,
-   addSellerImage,
    createChat,
    findUser,
    updateChat,

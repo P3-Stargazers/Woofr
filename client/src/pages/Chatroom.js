@@ -3,6 +3,7 @@ import useChat from "../utils/UseChat";
 import fetchJSON from '../utils/API'
 import { useStoreContext } from '../utils/GlobalStore'
 import { Form, InputGroup, Button } from 'react-bootstrap'
+import { Link } from "react-router-dom";
 
 const ChatRoom = (props) => {
   const { roomId } = props.match.params; // Gets roomId from URL
@@ -29,8 +30,6 @@ const ChatRoom = (props) => {
   useEffect(() => {
     async function getData() {
       const data = await fetchJSON(`/api/messages/${roomId}`)
-      console.log(data.msgs)
-     
       for (var i=0; i < data.msgs.length; i ++ ){
         if (data.msgs[i].userId == id){
           data.msgs[i].ownedByCurrentUser = true
@@ -39,12 +38,12 @@ const ChatRoom = (props) => {
         }
       }
       setOldMessages(data.msgs)
-      console.log('here-------->',oldMessages)
     }
     getData()
   }, []);
   return (
     <div className="chat-room-container">
+      <Link to={`/messages`}><i class="fas fa-arrow-left fa-3x"></i></Link>
       <div className="d-flex flex-column flex-grow-1" style={{ height: '100vh' }}>
         <div className="flex-grow-1 overflow-auto">
           <div className="d-f;ex flex-column align-items-start justify-content-end px-3">
@@ -91,10 +90,7 @@ const ChatRoom = (props) => {
           <div className="col-4">
             <button className="btn btn-primary" onClick={handleSendMessage}> <i class="fas fa-comment"></i> </button>
           </div>
-
         </div>
-
-
       </div>
     </div>
   );

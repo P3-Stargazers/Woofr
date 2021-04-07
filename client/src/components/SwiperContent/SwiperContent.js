@@ -18,7 +18,7 @@ function SwiperContent(props) {
         <button className="btn btn-success m-1 me-4" onClick={props.nextPage}>
           <i class="fas fa-thumbs-down fa-2x"></i>
         </button>
-        <button className="btn btn-success m-1 ms-4" onClick={props.nextPage}>
+        <button className="btn btn-success m-1 ms-4" onClick={props.match}>
           <i class="fas fa-thumbs-up fa-2x"></i>
         </button>
         <br />
