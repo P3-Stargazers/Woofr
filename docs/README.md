@@ -1,41 +1,29 @@
-# Everest App
+# Woofr
 
-Welcome! This sample application showcases a basic shopping cart tool. It also shows usage of a simple 
-RESTful API that has user sessions; and finally it offers an oAuth capability to login.
+## Purpose:
 
-## Install ##
-1. git clone repo
-2. npm install
-2. modify .env file (if needed; first 2 lines are needed, others you can add KEY/SECRET entries depend on your oAuth needs):
-```
-MONGODB_URI=mongodb://localhost/everest
-SESSION_SECRET=s3cr3tl00t
-TWITTER_KEY=...
-TWITTER_SECRET=...
-GOOGLE_KEY=...
-GOOGLE_SECRET=...
-```
-3. npm start
+Woofr is an application that provides its users with a platform to buy and sell dogs. It’s purpose is to make finding dogs in shelters or dogs from breeders streamlined and fun.
 
-## Developer Notes ##
-If you want to adjust the React front-end, you need to install a few developer dependencies
-1. npm install -g concurrently nodemon
-2. npm run install   (this will install all the react dependencies)
+## Concept:
+### Description
+Modelled after modern dating apps, users can upload dogs that they are selling, or create an account as a buyer
+Buyers are able to set preferences for types of dogs that they are looking for, and then swipe through the selection of dogs uploaded by sellers
+If a buyer “swipes right” on a dog, a conversation is automatically started between the buyer and the seller where they can learn more about each other and can decide if the buyer is the right match for the dog
 
-finall:
-`npm run start:dev`
+### Motivation
+To create a streamlined and easy way to find dogs homes
 
-This will run the server under nodemon, so any changes on it will trigger a reload, and likewise, will run the front-end under the normal React dev environment to allow reloading.
+### Typical user
+An individual is looking for a dog, either in a shelter or from a breeder
+The individual has specific preferences for dog adoption (both buyers and sellers)
+They want to find dogs that match their specific criteria
 
+## Technologies used:
+Javascript, Bootstrap v5, Font awesome, Imgur API, Socket.io, React, MongoDB, Heroku, Material
 
-*NOTE* You need to go to the developer pages on the sites you want to offer oAuth for, and configure an app to allow the login.
-
-For local debugging you should use an oAuth provider that allows you to set the
-callback to http://localhost:8080/oauth/(provider)/callback.
-
-Twitter and LinkedIn offer this. Use them for debugging.
-
-The others (Google/Facebook/GitHub) do not, and so a more complicated local setup would be needed (to setup a https://localhost - ie creating https certificates). Don't bother, test 
-them on a staging server later.
-
+## Participants (alphabetical order):
+[Andrew Boyle](https://github.com/andyb2)
+[Alex Goldman](https://github.com/Alexgoldman98)
+[Hillary Vos](https://github.com/hapvskully)
+[Jonathan O'Connor](https://github.com/Jonathan-OConnor)
 
